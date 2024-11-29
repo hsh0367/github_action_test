@@ -8,29 +8,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2
         with:
           token: ${{ secrets.CI_TOKEN }}
       - name: Set up git user
         run: |
           git config --global user.email "${{ github.actor }}@users.noreply.github.com"
           git config --global user.name "${{ github.actor }}"
-    
+  
       - name: Delete Merged Branches
         shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "Deleting merged branches"
           # Fetch all branches
           git fetch --all
           echo "Fetching all branches"
+          # List all remote branches
+          git branch -r
           # Get merged branches except main, master, and dev
-          branches=$(git branch -r --merged | grep -v '\->' | grep -v 'origin/main' | grep -v 'origin/master' | grep -v 'origin/dev')
-
+          merged_branches=$(git branch -r --merged origin/main | grep -v '\->' | grep -v 'origin/main' | grep -v 'origin/master' | grep -v 'origin/dev')
+          
           echo "Merged branches to be deleted:"
-          echo "$branches"
-
+          echo "$merged_branches"
+          
           # Loop through branches and delete them
-          for branch in $branches; do
+          for branch in $merged_branches; do
             branch_name=$(echo $branch | sed 's/origin\///')
             echo "Deleting branch $branch_name"
             git push origin --delete $branch_name || echo "Failed to delete branch $branch_name"
