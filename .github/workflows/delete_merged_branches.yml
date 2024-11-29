@@ -17,7 +17,7 @@ jobs:
           git fetch --all
 
           # Get merged branches except main, master, and dev
-          branches=$(git branch -r --merged | grep -v '\->' | grep -v 'main' | grep -v 'master' | grep -v 'dev')
+          branches=$(git branch -r --merged | grep -v '\->' | grep -v 'origin/main' | grep -v 'origin/master' | grep -v 'origin/dev')
 
           # Loop through branches and delete them
           for branch in $branches; do
