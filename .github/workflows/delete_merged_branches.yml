@@ -13,11 +13,10 @@ jobs:
       - name: Delete Merged Branches
         shell: bash
         run: |
-          set -e
-
+          echo "Deleting merged branches"
           # Fetch all branches
           git fetch --all
-
+          echo "Fetching all branches"
           # Get merged branches except main, master, and dev
           branches=$(git branch -r --merged | grep -v '\->' | grep -v 'origin/main' | grep -v 'origin/master' | grep -v 'origin/dev')
 
