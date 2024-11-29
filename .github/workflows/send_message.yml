@@ -1,0 +1,13 @@
+name: Send Message
+on: workflow_dispatch
+jobs:
+  send_message:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        
+      - name: Send Message
+        shell: bash
+        run: |
+          curl -X POST --data-urlencode "payload={\"channel\": \"#앱-테스트\", \"username\": \"테스트\", \"text\": \"테스트\"}"{% raw %}${{ secrets.SLACK_WEBHOOK_URL }}{% endraw %}
