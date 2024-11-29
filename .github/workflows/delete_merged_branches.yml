@@ -13,15 +13,20 @@ jobs:
       - name: Delete Merged Branches
         shell: bash
         run: |
+          set -e
+
           # Fetch all branches
           git fetch --all
 
           # Get merged branches except main, master, and dev
           branches=$(git branch -r --merged | grep -v '\->' | grep -v 'origin/main' | grep -v 'origin/master' | grep -v 'origin/dev')
 
+          echo "Merged branches to be deleted:"
+          echo "$branches"
+
           # Loop through branches and delete them
           for branch in $branches; do
             branch_name=$(echo $branch | sed 's/origin\///')
             echo "Deleting branch $branch_name"
-            git push origin --delete $branch_name
+            git push origin --delete $branch_name || echo "Failed to delete branch $branch_name"
           done
