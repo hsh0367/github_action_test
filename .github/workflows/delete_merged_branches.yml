@@ -1,4 +1,7 @@
 name: Delete Merged Branches
+permissions:
+  issues: write
+  contents: write
 
 on:
   workflow_dispatch:
@@ -17,25 +20,4 @@ jobs:
           git config --global user.name "${{ github.actor }}"
   
       - name: Delete Merged Branches
-        shell: bash
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo "Deleting merged branches"
-          # Fetch all branches
-          git fetch --all
-          echo "Fetching all branches"
-          # List all remote branches
-          git branch -r
-          # Get merged branches except main, master, and dev
-          merged_branches=$(git branch -r --merged origin/main | grep -v '\->' | grep -v 'origin/main' | grep -v 'origin/master' | grep -v 'origin/dev')
-          
-          echo "Merged branches to be deleted:"
-          echo "$merged_branches"
-          
-          # Loop through branches and delete them
-          for branch in $merged_branches; do
-            branch_name=$(echo $branch | sed 's/origin\///')
-            echo "Deleting branch $branch_name"
-            git push origin --delete $branch_name || echo "Failed to delete branch $branch_name"
-            done
+        uses: crs-k/stale-branches@v5.0.0
