@@ -1,15 +1,15 @@
 name: Call delete merged branchs
 
 on:
-    workflow_call:
-        inputs:
-            from_branch_name:
-                description: "from branch name"
-                type: string
-                required: true
-        secrets:
-            CI_TOKEN:
-                description: "CI_TOKEN to run whole jobs"
+  workflow_call:
+      inputs:
+        from_branch_name:
+            description: "from branch name"
+            type: string
+            required: true
+      secrets:
+        CI_TOKEN:
+            description: "CI_TOKEN to run whole jobs"
                 required: true
 
 jobs:
