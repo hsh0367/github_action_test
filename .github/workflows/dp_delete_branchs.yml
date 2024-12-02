@@ -20,7 +20,7 @@ jobs:
           git config --global user.name "${{ github.actor }}"
     
       - name: Main Merged Branch Deletion
-        uses: ./call_delete_merged_branchs
+        uses: ./.github/workflows/call_delete_merged_branchs
         with:
           token: ${{ secrets.CI_TOKEN }}
           from_branch_name: main
