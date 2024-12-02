@@ -25,7 +25,7 @@ jobs:
       
       - name: Get Merged Branches
         run: |
-          merged_branches=$(git branch -r --merged origin/main | grep -v "main\\|dev\\|feat/TSK1" | sed 's/origin\\///')
+          merged_branches=$(git branch -r --merged origin/main | grep -v "main\\|dev\\|feat/TSK1")
           echo "::set-output name=merged_branches::$merged_branches"      
       - name: Delete Merged Branches
         run: |
