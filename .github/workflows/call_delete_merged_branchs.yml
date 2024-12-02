@@ -1,6 +1,7 @@
 name: Call delete merged branchs
 
-on:
+on: 
+  workflow_dispatch:
   workflow_call:
     inputs:
       from_branch_name:
@@ -11,7 +12,6 @@ on:
       CI_TOKEN:
         description: "CI_TOKEN to run whole jobs"
         required: true
-
 jobs:
   get-delete-target-branchs:
     name: Get delete target branchs
