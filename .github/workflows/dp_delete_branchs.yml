@@ -27,6 +27,7 @@ jobs:
         id: get_merged_branches
         run: |
           merged_branches=$(git branch -r --merged | grep -v "origin/main\|origin/dev\|origin/HEAD" | sed 's/origin\///')
+          echo "merged_branches = $merged_branches"
           echo "merged_branches=$merged_branches" >> $GITHUB_ENV
     
       - name: Delete Merged Branches
