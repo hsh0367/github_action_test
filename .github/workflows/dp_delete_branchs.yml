@@ -24,12 +24,13 @@ jobs:
           git fetch --all
       
       - name: Get Merged Branches
+        id: get_merged_branches
         run: |
-          merged_branches=$(git branch -r --merged origin/main | grep -v "main\\|dev\\|feat/TSK1")
-          echo "::set-output name=merged_branches::$merged_branches"      
+          merged_branches=$(git branch -r --merged | grep -v "origin/main\|origin/dev\|origin/HEAD" | sed 's/origin\///')
+          echo "merged_branches=$merged_branches" >> $GITHUB_ENV
+    
       - name: Delete Merged Branches
         run: |
-          for branch in $merged_branches; do
-            branch_name=$(echo $branch | sed 's/origin\///')
-            git push origin --delete $branch_name
+          for branch in ${{ env.merged_branches }}; do
+            git push origin --delete $branch
           done
