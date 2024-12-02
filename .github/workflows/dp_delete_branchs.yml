@@ -1,4 +1,4 @@
-name: Delete Merged Branches
+name: DP Delete Branches
 permissions:
   issues: write
   contents: write
