@@ -20,7 +20,7 @@ jobs:
       CI_TOKEN: ${{ secrets.CI_TOKEN }}
 
   delete_dev_merged_branchs:
-    needs: set_up
+    needs: delete_main_merged_branchs
     uses: ./.github/workflows/call_delete_merged_branchs.yml
     with:
       from_branch_name: "dev"
