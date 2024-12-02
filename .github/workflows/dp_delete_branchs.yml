@@ -12,6 +12,7 @@ jobs:
           git config --global user.name "${{ github.actor }}"
   
   delete_main_merged_branchs:
+    needs: set_up
     uses: ./.github/workflows/call_delete_merged_branchs.yml
     with:
       from_branch_name: "main"

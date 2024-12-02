@@ -21,16 +21,13 @@ jobs:
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.CI_TOKEN }}
-  
-      - name: Set up git user
-        run: |
-          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
-          git config --global user.name "${{ github.actor }}"
 
       - name: Checkout branch
         run: |
           git fetch --all
           git checkout ${{ inputs.from_branch_name }}
+          git pull origin ${{ inputs.from_branch_name }}
+
 
       - name: Get delete target branchs
         id: get_delete_target_branchs
