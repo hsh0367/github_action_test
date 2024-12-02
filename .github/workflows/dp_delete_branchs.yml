@@ -13,16 +13,16 @@ jobs:
   
 
   delete_main_merged_branchs:
-    needs: set_up
     uses: ./call_delete_merged_branchs
     with:
-      from_branch_name: main
+      from_branch_name: "main"
     secrets:
       CI_TOKEN: ${{ secrets.CI_TOKEN }}
+
   delete_dev_merged_branchs:
     needs: set_up
     uses: ./call_delete_merged_branchs
     with:
-      from_branch_name: dev
+      from_branch_name: "dev"
     secrets:
       CI_TOKEN: ${{ secrets.CI_TOKEN }}      
