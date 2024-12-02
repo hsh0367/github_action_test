@@ -10,7 +10,7 @@ on:
       secrets:
         CI_TOKEN:
             description: "CI_TOKEN to run whole jobs"
-                required: true
+            required: true
 
 jobs:
     get-delete-target-branchs:
