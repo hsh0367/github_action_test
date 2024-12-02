@@ -13,31 +13,30 @@ on:
         required: true
 
 jobs:
-    get-delete-target-branchs:
-        name: Get delete target branchs
-        runs-on: ubuntu-latest
-        steps:
-            - name: Set up git user
-              run: |
-                  git config --global user.email "${{ github.actor }}@users.noreply.github.com"
-                  git config --global user.name "${{ github.actor }}"
+  get-delete-target-branchs:
+    name: Get delete target branchs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up git user
+        run: |
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+          git config --global user.name "${{ github.actor }}"
 
-            - name: Ceckout branch
-              run: |
-                  git fetch --all
-                  git checkout ${{ github.event.inputs.from_branch_name }}
+      - name: Ceckout branch
+        run: |
+          git fetch --all
+          git checkout ${{ github.event.inputs.from_branch_name }}
 
-            - name: Get delete target branchs
-              id: get_delete_target_branchs
-              run: |
-                  delete_target_branchs=$(git branch -r --merged | grep -v "origin/main\|origin/dev\|origin/HEAD" | sed 's/origin\///')
-                  echo "delete_target_branchs = $delete_target_branchs"
-                  echo "${{ github.event.inputs.from_branch_name }}_delete_target_branchs=$delete_target_branchs" >> $GITHUB_ENV 
-            
-            - name: Delete Merged Branches
-              run: |
-                  for branch in ${{ env.merged_branches }}; do
-                      git push origin --delete $branch
-                  done
-
-                          
+      - name: Get delete target branchs
+        id: get_delete_target_branchs
+        run: |
+          delete_target_branchs=$(git branch -r --merged | grep -v "origin/main\|origin/dev\|origin/HEAD" | sed 's/origin\///')
+          echo "delete_target_branchs = $delete_target_branchs"
+          echo "${{ github.event.inputs.from_branch_name }}_delete_target_branchs=$delete_target_branchs" >> $GITHUB_ENV 
+      
+      - name: Delete Merged Branches
+        run: |
+          for branch in ${{ env.merged_branches }}; do
+              git push origin --delete $branch
+          done
+ 
