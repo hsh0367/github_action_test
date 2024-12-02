@@ -1,33 +1,28 @@
 name: DP Delete Branches
-permissions:
-  issues: write
-  contents: write
 
-on:
-  workflow_dispatch:
+on: workflow_dispatch
 
 jobs:
-  delete_merged_branches:
+  set_up:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.CI_TOKEN }}
       - name: Set up git user
         run: |
           git config --global user.email "${{ github.actor }}@users.noreply.github.com"
           git config --global user.name "${{ github.actor }}"
-    
-      - name: Main Merged Branch Deletion
-        uses: ./.github/workflows/call_delete_merged_branchs
-        with:
-          token: ${{ secrets.CI_TOKEN }}
-          from_branch_name: main
-              
-      - name: Dev Merged Branch Deletion
-        uses: ./call_delete_merged_branchs
-        with:
-          token: ${{ secrets.CI_TOKEN }}
-          from_branch_name: dev
-          
+  
+  delete_main_merged_branchs:
+    uses: ./.github/workflows/call_delete_merged_branchs.yml
+    with:
+      from_branch_name: "main"
+    secrets:
+      CI_TOKEN: ${{ secrets.CI_TOKEN }}
+
+  delete_dev_merged_branchs:
+    needs: set_up
+    uses: ./.github/workflows/call_delete_merged_branchs.yml
+    with:
+      from_branch_name: "dev"
+    secrets:
+      CI_TOKEN: ${{ secrets.CI_TOKEN }}      
+
