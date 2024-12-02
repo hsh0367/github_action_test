@@ -1,9 +1,7 @@
 name: DP Delete Branches
-permissions:
-  issues: write
-  contents: write
 
 on: workflow_dispatch
+
 jobs:
   set_up:
     runs-on: ubuntu-latest
