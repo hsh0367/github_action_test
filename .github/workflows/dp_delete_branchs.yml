@@ -11,7 +11,6 @@ jobs:
           git config --global user.email "${{ github.actor }}@users.noreply.github.com"
           git config --global user.name "${{ github.actor }}"
   
-
   delete_main_merged_branchs:
     uses: ./.github/workflows/call_delete_merged_branchs.yml
     with:
@@ -26,3 +25,4 @@ jobs:
       from_branch_name: "dev"
     secrets:
       CI_TOKEN: ${{ secrets.CI_TOKEN }}      
+
