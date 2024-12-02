@@ -13,7 +13,7 @@ jobs:
   
 
   delete_main_merged_branchs:
-    uses: ./call_delete_merged_branchs
+    uses: ./.github/workflows/call_delete_merged_branchs
     with:
       from_branch_name: "main"
     secrets:
@@ -21,7 +21,7 @@ jobs:
 
   delete_dev_merged_branchs:
     needs: set_up
-    uses: ./call_delete_merged_branchs
+    uses: ./.github/workflows/call_delete_merged_branchs
     with:
       from_branch_name: "dev"
     secrets:
