@@ -46,12 +46,18 @@ jobs:
           echo "$delete_target_branchs" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
           echo "$$GITHUB_ENV"
-      
+  
+      - name: 'Debug: Print delete target branches'
+        run: |
+          echo "Delete target branches: ${{ env.delete_target_branchs }}"
+
       
       - name: Delete Merged Branches
         if: ${{ env.delete_target_branchs != '' }}
         run: |
-          for branch in ${{ env.delete_target_branchs }}; do
+          IFS=$'\n' read -r -d '' -a branches <<< "${{ env.delete_target_branchs }}"
+          for branch in ${ branches[@] }; do
             echo "Deleting branch $branch"
-            git push origin --delete $branch
+            echo "Deleting branch: $branch"
+            git push origin --delete "$branch" || echo "Failed to delete branch: $branch"
           dones
