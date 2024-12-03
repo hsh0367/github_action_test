@@ -1,7 +1,9 @@
 name: DP Delete Branches
 
-on: workflow_dispatch
-
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "* * * * *" # every minute  (for test)
 jobs:
   set_up:
     runs-on: ubuntu-latest
