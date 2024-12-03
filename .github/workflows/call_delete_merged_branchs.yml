@@ -42,10 +42,7 @@ jobs:
         run: |
           delete_target_branchs=$(git branch -r --merged | grep -v "origin/main\|origin/dev\|origin/HEAD" | sed 's/origin\///'  | sed 's/^[[:space:]]*//; s/[[:space:]]*$//')
           echo "find delete_target_branchs=$delete_target_branchs"
-          echo "delete_target_branchs<<EOF" >> $GITHUB_ENV
-          echo "$delete_target_branchs" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
-          echo "$$GITHUB_ENV"
+          echo "delete_target_branchs=$delete_target_branchs" >> $GITHUB_ENV
   
       - name: 'Debug: Print delete target branches'
         run: |
