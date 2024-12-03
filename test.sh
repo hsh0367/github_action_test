@@ -1,8 +1,8 @@
 # 테스트할 문자열 설정
-input="test/dev-merge
-test/main-merge"
+input="test/dev-merge"
 
-IFS=$'\n' read -r -d '' -a branches <<< "$input"
-for branch in "${branches[@]}"; do
-  echo "Branch: '$branch'"
+
+echo "$input" | while IFS= read -r branch; do
+  echo "Deleting branch: $branch"
+  git push origin --delete "$branch" || echo "Failed to delete branch: $branch"
 done

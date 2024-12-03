@@ -54,7 +54,7 @@ jobs:
       - name: Delete Merged Branches
         if: ${{ env.delete_target_branchs != '' }}
         run: |
-          IFS=$'\n' read -r -d '' -a branches <<< "${{ env.delete_target_branchs }}"
-          for branch in "${branches[@]}"; do
+          echo "${{ env.delete_target_branchs }}" | while IFS= read -r branch; do
             echo "Deleting branch: $branch"
+            git push origin --delete "$branch" || echo "Failed to delete branch: $branch"
           done
