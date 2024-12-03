@@ -42,11 +42,14 @@ jobs:
         run: |
           delete_target_branchs=$(git branch -r --merged | grep -v "origin/main\|origin/dev\|origin/HEAD" | sed 's/origin\///')
           echo "find delete_target_branchs=$delete_target_branchs"
-          echo "delete_target_branchs=$delete_target_branchs" >> $GITHUB_ENV 
+          echo "delete_target_branchs<<EOF" >> $GITHUB_ENV
+          echo "$delete_target_branchs" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+      
       
       - name: Delete Merged Branches
-        if : ${{ steps.get_delete_target_branchs.outputs.delete_target_branchs != '' }}
+        if: ${{ env.delete_target_branchs != '' }}
         run: |
-          for branch in ${{ steps.get_delete_target_branchs.outputs.delete_target_branchs }}; do
+          for branch in ${{ env.delete_target_branchs }}; do
               git push origin --delete $branch
           dones
