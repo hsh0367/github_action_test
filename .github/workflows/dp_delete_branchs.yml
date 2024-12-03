@@ -1,4 +1,4 @@
-name: DP Delete Branches
+name: DP - Delete Branches
 
 on: workflow_dispatch
 jobs:

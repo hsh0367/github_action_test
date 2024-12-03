@@ -1,5 +1,4 @@
-name: Call delete merged branchs
-
+name: Call Delete Merged Branchs
 on: 
   workflow_call:
     inputs:
