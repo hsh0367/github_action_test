@@ -40,7 +40,7 @@ jobs:
       - name: Get delete target branchs
         id: get_delete_target_branchs
         run: |
-          delete_target_branchs=$(git branch -r --merged | grep -v "origin/main\|origin/dev\|origin/HEAD" | sed 's/origin\///')
+          delete_target_branchs=$(git branch -r --merged | grep -v "origin/main\|origin/dev\|origin/HEAD" | sed 's/origin\///'  | sed 's/^[[:space:]]*//; s/[[:space:]]*$//')
           echo "find delete_target_branchs=$delete_target_branchs"
           echo "delete_target_branchs<<EOF" >> $GITHUB_ENV
           echo "$delete_target_branchs" >> $GITHUB_ENV
@@ -55,7 +55,8 @@ jobs:
       - name: Delete Merged Branches
         if: ${{ env.delete_target_branchs != '' }}
         run: |
-          IFS=$'\n' read -r -d '' -a branches <<< "$(echo "${{ env.delete_target_branchs }}" | sed 's/^[[:space:]]*//; s/[[:space:]]*$//')"
+          IFS=$'\n' read -r -d '' -a branches <<< "${{ env.delete_target_branchs }}"
           for branch in "${branches[@]}"; do
-            echo "Branch: '$branch'"
+            echo "Deleting branch: $branch"
+            git push origin --delete "$branch" || echo "Failed to delete branch: $branch"
           done
